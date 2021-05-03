@@ -17,7 +17,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: 
-          pip3 install -r requirements.txt -i https://pypi.douban.com/simple
+          pip install -r requirements.txt
       - name: Working
         env: 
           SCKEY: ${{ secrets.SCKEY }}
