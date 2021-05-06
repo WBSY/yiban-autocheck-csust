@@ -14,7 +14,7 @@ if __name__ == '__main__':
         yb = YiBan(PHONE,PASS) # FIXME:账号密码
         yb.login()
         yb.getHome()
-        print("登录成功 %s"%yb.name)
+        print("登录成功")
         yb.auth()
         all_task = yb.getUncompletedList()["data"]
         all_task = list(filter(lambda x: "体温检测" in x["Title"], all_task))  # FIXME: 长理的打卡任务标题均含有"体温检测"字样 此举是防止其他表单干扰 （可能会变）
@@ -48,7 +48,7 @@ if __name__ == '__main__':
             if submit_result["code"] == 0:
                 share_url = yb.getShareUrl(submit_result["data"])["data"]["uri"]
                 print("已完成一次体温上报[%s]" % task_detail["Title"])
-                print("访问此网址查看详情：%s" % share_url)
+                print("审批网站已推送" )
                 title='已完成一次签到'
                 message=share_url
                 api = 'https://sc.ftqq.com/%s.send'%SCKEY
