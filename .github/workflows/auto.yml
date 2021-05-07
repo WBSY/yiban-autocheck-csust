@@ -1,23 +1,29 @@
+name: yiban autocheck csust
+
 on:
   workflow_dispatch:
-  push:
+  # push: # 注释掉后仓库有 update 时不执行 main.py
   schedule:
-   - cron: "0 1,2,3 * * ?"  # scheduled at 8:00、9:00、14:00、15:00(UTC+8) everyday
+   - cron: "0 0,1,6,7 * * *"  # scheduled at 8:00、9:00、14:00、15:00(UTC+8) everyday （但事实上UTC+8的8点很难准时，往往会排队到9点多）
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
+
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.x' # 使用 python 3.x 最新版本
+
+      - name: Set time zone
+        run: sudo timedatectl set-timezone 'Asia/Shanghai' # 设置时区为中国/上海
+
       - name: Install dependencies
         run: 
           pip install -r requirements.txt
+
       - name: Working
         env: 
           SCKEY: ${{ secrets.SCKEY }}
