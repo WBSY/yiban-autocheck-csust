@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   # push: # 注释掉后仓库有 update 时不执行 main.py
   schedule:
-   - cron: "0 0,1,6,7 * * *"  # scheduled at 8:00、9:00、14:00、15:00(UTC+8) everyday （但事实上UTC+8的8点很难准时，往往会排队到9点多）
+   - cron: "0 0,3,7 * * *"  # scheduled at 8:00、9:00、14:00、15:00(UTC+8) everyday （但事实上UTC+8的8点很难准时，往往会排队到9点多）
 
 jobs:
   build:
