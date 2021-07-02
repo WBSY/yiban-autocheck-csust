@@ -13,7 +13,7 @@ if __name__ == '__main__':
     try:
         yb = YiBan(PHONE,PASS) # FIXME:账号密码
         yb.login()
-        yb.getHome()
+        #yb.getHome()
         print("登录成功")
         yb.auth()
         all_task = yb.getUncompletedList()["data"]
