@@ -4,83 +4,64 @@ import util
 class YiBan:
     CSRF = "64b5c616dc98779ee59733e63de00dd5" 
     COOKIES = {"csrf_token": CSRF}  # 固定cookie 无需更改
-    HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "YiBan"}  # 固定头 无需更改
+    HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "yiban"}  # 固定头 无需更改
 
-    def __init__(self, account, passwd):
-        self.account = account
-        self.passwd = passwd
+    class Yiban:
+    CSRF = "64b5c616dc98779ee59733e63de00dd5"
+    COOKIES = {"csrf_token": CSRF}
+    HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "YiBan"}
+    EMAIL = {}
+
+    def __init__(self, mobile, password):
+        self.mobile = mobile
+        self.password = password
         self.session = requests.session()
         self.name = ""
-        self.iapp = ""
 
     def request(self, url, method="get", params=None, cookies=None):
         if method == "get":
-            req = self.session.get(url, params=params, timeout=10, headers=self.HEADERS, cookies=cookies)
+            response = self.session.get(url=url, timeout=10, headers=self.HEADERS, params=params, cookies=cookies)
         else:
-            req = self.session.post(url, data=params, timeout=10, headers=self.HEADERS, cookies=cookies)
-        try:
-            return req.json()
-        except:
-            return None
+            response = self.session.post(url=url, timeout=10, headers=self.HEADERS, data=params, cookies=cookies)
+
+        return response.json()
 
     def login(self):
+        """
+        登录
+        :return:
+        """
         params = {
-            "mobile": self.account,
+            "mobile": self.mobile,
+            "password": self.password,
             "imei": "0",
-            "password": self.passwd
         }
-        # 最新不需要加密密码直接登录的接口来自我B站视频评论用户：破损的鞘翅(bilibili_id:45807603)
-        r = self.request("https://mobile.yiban.cn/api/v3/passport/login", params=params, cookies=self.COOKIES)
-        if r is not None and response["response"] == 100:
-            self.access_token = r["data"]["user"]["access_token"]
+        # 新的登录接口
+        response = self.request("https://mobile.yiban.cn/api/v3/passport/login", params=params, cookies=self.COOKIES)
+        if response is not None and response["response"] == 100:
+            self.access_token = response["data"]["user"]["access_token"]
             self.HEADERS["Authorization"] = "Bearer " + self.access_token
+            # 增加cookie
             self.COOKIES["loginToken"] = self.access_token
-            return r
+            return response
         else:
-            return r
-            #raise Exception("账号或密码错误")
-   
-    def getHome(self):
-        params = {
-            "access_token": self.access_token,
-        }
-        r = self.request(url="https://mobile.yiban.cn/api/v3/home", params=params)
-        self.name = r["data"]["user"]["userName"]
-        for i in r["data"]["hotApps"]: # 动态取得iapp号 20201117更新
-            if i["name"] == "易班校本化":
-                self.iapp = re.findall(r"(iapp.*)\?", i["url"])[0]
-        return r
-    def auth(self):
-        params = {
-            "act": self.iapp,
-            "v": self.access_token
-        }
-        print()
-        location = self.session.get("http://f.yiban.cn/iapp/index",params=params,
-                                    allow_redirects=False).headers.get("Location")
-        if location is None:
-            raise Exception("该用户可能没进行校方认证，无此APP权限")
-        verifyRequest = re.findall(r"verify_request=(.*?)&", location)[0]
-        result_auth = self.request(
-            "https://api.uyiban.com/base/c/auth/yiban?verifyRequest=%s&CSRF=%s" % (verifyRequest, self.CSRF),
+            return response
+
+    def auth(self) -> json:
+        """
+        登录验证
+        :return:
+        """
+        location = self.session.get("http://f.yiban.cn/iapp7463?access_token=" + self.access_token + "&v_time=" + str(int(round(time.time() * 100000))),
+                                    allow_redirects=False, cookies=self.COOKIES)
+        # 二次重定向
+        act = self.session.get("https://f.yiban.cn/iapp/index?act=iapp7463", allow_redirects=False, cookies=self.COOKIES).headers["Location"]
+        verifyRequest = re.findall(r"verify_request=(.*?)&", act)[0]
+        response = self.request(
+            "https://api.uyiban.com/base/c/auth/yiban?verifyRequest=" + verifyRequest + "&CSRF=" + self.CSRF,
             cookies=self.COOKIES)
-        data_url = result_auth["data"].get("Data")
-        if data_url is not None:  # 授权过期
-            result_html = self.session.get(url=data_url, headers=self.HEADERS,
-                                           cookies={"loginToken": self.access_token}).text
-            re_result = re.findall(r'input type="hidden" id="(.*?)" value="(.*?)"', result_html)
-            post_data = {"scope": "1,2,3,"}
-            for re_i in re_result:
-                post_data[re_i[0]] = re_i[1]
-            usersure_result = self.session.post(url="https://oauth.yiban.cn/code/usersure",
-                                                data=post_data,
-                                                headers=self.HEADERS, cookies={"loginToken": self.access_token})
-            if usersure_result.json()["code"] == "s200":
-                return self.auth()
-            else:
-                return False
-        else:
-            return True
+        self.name = response["data"]["PersonName"]
+        return response
 
     def getUncompletedList(self):
         params = {
