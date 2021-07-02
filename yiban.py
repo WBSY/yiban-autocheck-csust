@@ -38,7 +38,8 @@ class YiBan:
 
                 return r
             else:
-                continue
+                return r
+                break
 
     def getHome(self):
         params = {
