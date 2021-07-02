@@ -30,14 +30,16 @@ class YiBan:
             "password": self.passwd
         }
         # 最新不需要加密密码直接登录的接口来自我B站视频评论用户：破损的鞘翅(bilibili_id:45807603)
-        r = self.request(url="https://mobile.yiban.cn/api/v3/passport/login", params=params,cookies=self.COOKIES)
-        if r is not None and str(r["response"]) == "100":
+        r = self.request("https://mobile.yiban.cn/api/v3/passport/login", params=params, cookies=self.COOKIES)
+        if r is not None and response["response"] == 100:
             self.access_token = r["data"]["user"]["access_token"]
             self.HEADERS["Authorization"] = "Bearer " + self.access_token
             self.COOKIES["loginToken"] = self.access_token
             return r
         else:
-            raise Exception("账号或密码错误")
+            return r
+            #raise Exception("账号或密码错误")
+   
     def getHome(self):
         params = {
             "access_token": self.access_token,
