@@ -38,7 +38,7 @@ class YiBan:
 
                 return r
             else:
-                return r
+                raise Exception("登录这里出问题了")
                 break
 
     def getHome(self):
