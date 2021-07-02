@@ -30,14 +30,13 @@ class YiBan:
             "imei": "0",
             "password": self.passwd
             }
-            r = self.request(url="https://mobile.yiban.cn/api/v3/passport/login", params=params)
-            if r is not None and str(r["response"]) == "100":
-                self.access_token = r["data"]["user"]["access_token"]
-                self.COOKIES["loginToken"] = r["data"]["user"]["access_token"]
-
-                return r
-            else:
-                return r
+        r = self.request(url="https://mobile.yiban.cn/api/v3/passport/login", params=params)
+        if r is not None and str(r["response"]) == "100":
+            self.access_token = r["data"]["user"]["access_token"]
+            self.COOKIES["loginToken"] = r["data"]["user"]["access_token"]
+            return r
+        else:
+            return r
 
     def getHome(self):
         params = {
