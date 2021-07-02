@@ -2,7 +2,7 @@
 =====
 ## 尝试易班脚本在actions上运行并推送
 
-## 注本脚本基于looyeagee修改
+## 注本脚本基于looyeagee的源码修改
 
 ## 大家感兴趣可以去看看looyeagee的博客：https://looyeagee.cn/
 
