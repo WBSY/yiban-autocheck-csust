@@ -2,9 +2,9 @@ import re
 import requests
 import util
 class YiBan:
-    CSRF = "sui-bian-fang-dian-dong-xi"  # 随机值 随便填点东西
+    CSRF = "64b5c616dc98779ee59733e63de00dd5" 
     COOKIES = {"csrf_token": CSRF}  # 固定cookie 无需更改
-    HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "yiban"}  # 固定头 无需更改
+    HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "YiBan"}  # 固定头 无需更改
 
     def __init__(self, account, passwd):
         self.account = account
