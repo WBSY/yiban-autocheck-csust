@@ -25,11 +25,10 @@ class YiBan:
             return None
 
     def login(self):
-        while True:
-            params = {
-                "mobile": self.account,
-                "imei": "0",
-                "password": self.passwd
+        params = {
+            "mobile": self.account,
+            "imei": "0",
+            "password": self.passwd
             }
             r = self.request(url="https://mobile.yiban.cn/api/v3/passport/login", params=params)
             if r is not None and str(r["response"]) == "100":
@@ -38,8 +37,7 @@ class YiBan:
 
                 return r
             else:
-                raise Exception("登录这里出问题了")
-                break
+                return r
 
     def getHome(self):
         params = {
