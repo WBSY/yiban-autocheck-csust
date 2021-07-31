@@ -31,7 +31,7 @@ if __name__ == '__main__':
                         "desp" : message
                     }
                 req = requests.post(api, data=data)   
-            elif SKEY:
+            if SKEY:
                 content="没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。 "
                 url = 'https://push.xuthus.cc/group/%s'%Skey
                 data = {
@@ -69,7 +69,7 @@ if __name__ == '__main__':
                             "desp" : message
                         }
                     req = requests.post(api, data=data)   
-                elif SKEY:
+                if SKEY:
                     content='今日签到成功：%s'%message
                     url = 'https://push.xuthus.cc/group/%s'%Skey
                     data = {
