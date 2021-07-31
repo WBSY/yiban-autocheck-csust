@@ -41,6 +41,7 @@
 ! 1.首先点击右上角的fork 当然star也可以点点（star 相当于点赞吧...俺也不懂 看别人都在求我也求一个 fork才是最重要的不然无法进行下面的步骤）
 ! 2.点击Settings->Secrets  点击右上角New repository secret 
 !   创建三个 分别是PASS PHONE SCKEY 内容分别是你的易班密码   易班账号   server chan的key（获取方法我放后面，用来推送的）
+!   2021/07/31 添加coolpush 推送  去注册然后在Secrets添加名称为Skey的值即可
 ! 3.点击main.py 修改42行的地址 （这里是我垃圾了，不知道怎么读取数组中的值 不然就可以密文了  (￣ω￣;)  ）
 ! 4.随意push 然后去Actions中 点击build 观看是否成功运行
 - 需要修改自动打卡时间的自行去.github/workflows 里的yml文件修改第5行cron （需要了解cron表达式）
