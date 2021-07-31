@@ -70,7 +70,7 @@ if __name__ == '__main__':
                         }
                     req = requests.post(api, data=data)   
                 if SKEY:
-                    content='今日签到成功：%s'%message
+                    content='%s今日签到成功：%s'%(RNAME,message)
                     url = 'https://push.xuthus.cc/group/%s'%Skey
                     data = {
                           "c": content,
