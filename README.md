@@ -53,7 +53,7 @@
 
 #### 	~ 点击Settings->Secrets  点击右上角New repository secret 
 
-#### 	~ 创建三个 分别是PASS PHONE SCKEY 内容分别是你的易班密码、易班账号、server chan的key
+#### 	~ 创建三个 分别是PASS PHONE SCKEY ~~RNAME~~ 内容分别是你的易班密码、易班账号、server chan的key、~~姓名
 
 #### 	~ （获取方法我放后面）
 
@@ -61,7 +61,7 @@
 
 #### 	~ 点击Settings->Secrets  点击右上角New repository secret
 
-#### 	~ 创建三个 分别是PASS PHONE SKEY 内容分别是你的易班密码、易班账号、coolpush的key
+#### 	~ 创建三个 分别是PASS PHONE SKEY RNAME 内容分别是你的易班密码、易班账号、coolpush的key、姓名
 
 #### 	~ （注意是SKEY，和另一种推送是不同的，少了个C）
 
