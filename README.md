@@ -49,21 +49,21 @@
 
 #### 2.选择推送方式（选择一个就好，都建了secret的话 默认Server Chan）
 
-#### 	(1)Server Chan(目前收费，免费额度少，不推荐)
+#### 	~ (1)Server Chan(目前收费，免费额度少，不推荐)
 
-#### 	点击Settings->Secrets  点击右上角New repository secret 
+#### 	~ 点击Settings->Secrets  点击右上角New repository secret 
 
-#### 	创建三个 分别是PASS PHONE SCKEY 内容分别是你的易班密码、易班账号、server chan的key
+#### 	~ 创建三个 分别是PASS PHONE SCKEY 内容分别是你的易班密码、易班账号、server chan的key
 
-#### 	（获取方法我放后面）
+#### 	~ （获取方法我放后面）
 
-#### 	(2)CoolPush(免费，推荐)
+#### 	~ (2)CoolPush(免费，推荐)
 
-#### 	点击Settings->Secrets  点击右上角New repository secret
+#### 	~ 点击Settings->Secrets  点击右上角New repository secret
 
-#### 	创建三个 分别是PASS PHONE SKEY 内容分别是你的易班密码、易班账号、coolpush的key
+#### 	~ 创建三个 分别是PASS PHONE SKEY 内容分别是你的易班密码、易班账号、coolpush的key
 
-#### 	（注意是SKEY，和另一种推送是不同的，少了个C）
+#### 	~ （注意是SKEY，和另一种推送是不同的，少了个C）
 
 ####  3.点击main.py 修改53行的地址即打卡地址 （这里是我垃圾了，不知道怎么读取数组中的值 不然就可以密文了  (￣ω￣;)  ）
 
