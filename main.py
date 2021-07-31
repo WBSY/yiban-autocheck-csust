@@ -10,6 +10,8 @@ if __name__ == '__main__':
     SCKEY = os.environ["SCKEY"]
     PASS = os.environ["PASS"]
     PHONE = os.environ["PHONE"]
+    SKEY = os.environ["SKEY"]
+    RNAME= os.environ["RNAME"]
     try:
         yb = YiBan(PHONE,PASS) # FIXME:账号密码
         yb.login()
@@ -19,15 +21,24 @@ if __name__ == '__main__':
         all_task = yb.getUncompletedList()["data"]
         all_task = list(filter(lambda x: "体温检测" in x["Title"], all_task))  # FIXME: 长理的打卡任务标题均含有"体温检测"字样 此举是防止其他表单干扰 （可能会变）
         if len(all_task) == 0:
-            print("没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。")
-            title='没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。'
-            message='本次易班签到或已失败请登录易班查看详情'
-            api = 'https://sc.ftqq.com/%s.send'%SCKEY
-            data ={
-                    "text" : title,
-                    "desp" : message
-                  }
-            req = requests.post(api, data=data)   
+            if SCKEY:
+                print("没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。")
+                title='没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。'
+                message='本次易班签到或已失败请登录易班查看详情'
+                api = 'https://sc.ftqq.com/%s.send'%SCKEY
+                data ={
+                        "text" : title,
+                        "desp" : message
+                    }
+                req = requests.post(api, data=data)   
+            elif SKEY:
+                content="没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。 "
+                url = 'https://push.xuthus.cc/group/%s'%Skey
+                data = {
+                  "c": content,
+                       }
+                res = requests.get(url=url,params=data)
+                print(res.text)
         else:
             all_task_sort = util.desc_sort(all_task, "StartTime")  # 按开始时间排序
             new_task = all_task_sort[0]  # 只取一个最新的
@@ -51,12 +62,20 @@ if __name__ == '__main__':
                 print("审批网站已推送" )
                 title='已完成一次签到'
                 message=share_url
-                api = 'https://sc.ftqq.com/%s.send'%SCKEY
-                data ={
-                        "text" : title,
-                        "desp" : message
-                      }
-                req = requests.post(api, data=data)        
+                if SCKEY:
+                    api = 'https://sc.ftqq.com/%s.send'%SCKEY
+                    data ={
+                            "text" : title,
+                            "desp" : message
+                        }
+                    req = requests.post(api, data=data)   
+                elif SKEY:
+                    content='今日签到成功：%s'%message
+                    url = 'https://push.xuthus.cc/group/%s'%Skey
+                    data = {
+                          "c": content,
+                        }
+                    res = requests.get(url=url,params=data)
             else:
                 print("[%s]遇到了一些错误:%s" % (task_detail["Title"], submit_result["msg"]))
     except Exception as e:
