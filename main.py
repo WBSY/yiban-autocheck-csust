@@ -32,13 +32,15 @@ if __name__ == '__main__':
                     }
                 req = requests.post(api, data=data)   
             if SKEY:
-                content="没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。 "
-                url = 'https://push.xuthus.cc/group/%s'%Skey
+                content='没找到今天长理体温上报的任务，可能是你已经上报，如果不是请手动上报。'
+                url = 'https://push.xuthus.cc/group/%s'%SKEY
                 data = {
-                  "c": content,
-                       }
+                    "c": content,
+
+                }
                 res = requests.get(url=url,params=data)
                 print(res.text)
+
         else:
             all_task_sort = util.desc_sort(all_task, "StartTime")  # 按开始时间排序
             new_task = all_task_sort[0]  # 只取一个最新的
@@ -71,7 +73,7 @@ if __name__ == '__main__':
                     req = requests.post(api, data=data)   
                 if SKEY:
                     content='%s今日签到成功：%s'%(RNAME,message)
-                    url = 'https://push.xuthus.cc/group/%s'%Skey
+                    url = 'https://push.xuthus.cc/group/%s'%SKEY
                     data = {
                           "c": content,
                         }
